@@ -1,3 +1,4 @@
 # TwitterClone
 
-![image](https://user-images.githubusercontent.com/22734456/177430885-081db64c-2679-4960-9c37-da180808b29f.png)
+![image](https://user-images.githubusercontent.com/22734456/177431335-b85b911b-5cf9-4ae8-b6ff-42ee1f6e8bab.png)
+
