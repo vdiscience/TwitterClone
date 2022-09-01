@@ -55,7 +55,12 @@ namespace TwitterCloneBackend.Services.Services
             return entityUser;
         }
 
-
+        /// <summary>
+        /// Get all users
+        /// </summary>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        /// <exception cref="NullReferenceException"></exception>
         public async Task<List<User>> GetUsers(CancellationToken cancellationToken)
         {
             var users = await _dataContext.Users.ToListAsync(cancellationToken).ConfigureAwait(false);

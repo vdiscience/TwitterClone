@@ -24,7 +24,7 @@ namespace TwitterCloneBackend.DDD
         // Db path
         public string DbPath { get; }
 
-        public DataContext()
+        public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
             //var folder = Environment.SpecialFolder.LocalApplicationData;
             //var path = Environment.GetFolderPath(folder);
@@ -32,11 +32,17 @@ namespace TwitterCloneBackend.DDD
             //DbPath = Path.Join(path, "twitterClone.db");
         }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder options)
-        {
-            //options.UseSqlite($"Data Source = {DbPath}");
-            //options.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=TwitterClone;Trusted_Connection=True");
-            options.UseSqlServer(@"Server=.\SQLEXPRESS;Database=TwitterClone;Trusted_Connection=True;");
-        }
+        //protected override void OnModelCreating(ModelBuilder modelBuilder)
+        //{
+        //    //modelBuilder.Entity<Invoice>()
+        //    //    .HasMany(items => items.InvoiceItems);
+        //}
+
+        //protected override void OnConfiguring(DbContextOptionsBuilder options)
+        //{
+        //    //options.UseSqlite($"Data Source = {DbPath}");
+        //    //options.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=TwitterClone;Trusted_Connection=True");
+        //    options.UseSqlServer(@"Server=.\SQLEXPRESS;Database=TwitterClone;Trusted_Connection=True;");
+        //}
     }
 }

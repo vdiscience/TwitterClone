@@ -10,5 +10,5 @@ public interface ITweetService
     /// </summary>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    Task<List<Tweet>> GetTweets(PagingParameters pagingParameters, CancellationToken cancellationToken);
+    Task<List<Tweet>> GetAllTweets(PagingParameters pagingParameters, CancellationToken cancellationToken);
 }

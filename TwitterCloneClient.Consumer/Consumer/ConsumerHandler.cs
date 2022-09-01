@@ -68,10 +68,21 @@ namespace TwitterCloneClient.Consumer.Consumer
 
                             if (obj.Profile != null)
                             {
-                                foreach (var profileTweet in obj.Profile.Tweets)
-                                {
-                                    Console.WriteLine(profileTweet.TweetText);
-                                }
+                                //foreach (var profileTweet in obj.Profile.Tweets)
+                                //{
+                                //    Console.WriteLine(profileTweet.TweetText);
+                                //}
+
+                                Console.WriteLine("LINQ loop start");
+                                obj.Profile.Tweets
+                                    .ForEach(x =>
+                                    {
+                                        Console.WriteLine(x);
+                                        Console.WriteLine(x.Profile.ProfileName);
+                                    });
+
+
+                                Console.WriteLine("LINQ loop end");
                             }
 
                             var dataContext = new DataContext();
