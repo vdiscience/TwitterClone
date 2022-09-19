@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using TwitterCloneBackend.DDD;
 using TwitterCloneBackend.DDD.Models;
 
+using Microsoft.AspNetCore.Authorization;  //👈 new code
+
 namespace TwitterClone.Web.API.Controllers
 {
     [Route("api/[controller]")]
@@ -23,6 +25,7 @@ namespace TwitterClone.Web.API.Controllers
 
         // GET: api/Cities
         [HttpGet]
+        [Authorize]  //👈 new code
         public async Task<ActionResult<IEnumerable<City>>> GetCities()
         {
             return await _context.Cities.ToListAsync();
@@ -43,7 +46,7 @@ namespace TwitterClone.Web.API.Controllers
         }
 
         // PUT: api/Cities/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        // To protect from over-posting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         public async Task<IActionResult> PutCity(Guid id, City city)
         {
@@ -74,8 +77,9 @@ namespace TwitterClone.Web.API.Controllers
         }
 
         // POST: api/Cities
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        // To protect from over-posting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [Authorize]  //👈 new code
         public async Task<ActionResult<City>> PostCity(City city)
         {
             _context.Cities.Add(city);
