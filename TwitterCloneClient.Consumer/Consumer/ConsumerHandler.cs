@@ -63,7 +63,7 @@ namespace TwitterCloneClient.Consumer.Consumer
 
                             Console.WriteLine();
                             Console.WriteLine();
-                            Console.WriteLine(obj.UserName);
+                            Console.WriteLine(value: obj?.UserName);
                             Console.WriteLine();
 
                             if (obj.Profile != null)

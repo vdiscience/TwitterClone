@@ -24,13 +24,13 @@ namespace TwitterCloneBackend.DDD
         // Db path
         public string DbPath { get; }
 
-        public DataContext(DbContextOptions<DataContext> options) : base(options)
-        {
-            //var folder = Environment.SpecialFolder.LocalApplicationData;
-            //var path = Environment.GetFolderPath(folder);
-            //var path = Environment.CurrentDirectory;
-            //DbPath = Path.Join(path, "twitterClone.db");
-        }
+        //public DataContext(DbContextOptions<DataContext> options) : base(options)
+        //{
+        //    var folder = Environment.SpecialFolder.LocalApplicationData;
+        //    var path = Environment.GetFolderPath(folder);
+        //    var path = Environment.CurrentDirectory;
+        //    DbPath = Path.Join(path, "twitterClone.db");
+        //}
 
         //protected override void OnModelCreating(ModelBuilder modelBuilder)
         //{
