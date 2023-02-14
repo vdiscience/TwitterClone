@@ -5,6 +5,17 @@ namespace TwitterCloneBackend.DDD
 {
     public class DataContext : DbContext
     {
+        #region InMemorySupport Setup
+        public DataContext(DbContextOptions<DataContext> options) : base(options)
+        {
+        }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder options)
+        {
+            options.UseInMemoryDatabase("TwitterClone");
+        }
+        #endregion InMemorySupport Setup
+
         // DbSets
 
         public DbSet<User> Users { get; set; }
@@ -24,6 +35,7 @@ namespace TwitterCloneBackend.DDD
         // Db path
         public string DbPath { get; }
 
+
         //public DataContext(DbContextOptions<DataContext> options) : base(options)
         //{
         //    var folder = Environment.SpecialFolder.LocalApplicationData;
@@ -36,12 +48,13 @@ namespace TwitterCloneBackend.DDD
         //{
         //    //modelBuilder.Entity<Invoice>()
         //    //    .HasMany(items => items.InvoiceItems);
-        //}
+        //}        
 
         //protected override void OnConfiguring(DbContextOptionsBuilder options)
         //{
-        //    //options.UseSqlite($"Data Source = {DbPath}");
-        //    //options.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=TwitterClone;Trusted_Connection=True");
+        //    options.UseInMemoryDatabase("TwitterClone");
+        //    options.UseSqlite($"Data Source = {DbPath}");
+        //    options.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=TwitterClone;Trusted_Connection=True");
         //    options.UseSqlServer(@"Server=.\SQLEXPRESS;Database=TwitterClone;Trusted_Connection=True;");
         //}
     }

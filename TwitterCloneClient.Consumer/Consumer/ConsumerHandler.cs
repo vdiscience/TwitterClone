@@ -1,5 +1,6 @@
 ﻿using Apache.NMS;
 using Apache.NMS.Util;
+using Microsoft.EntityFrameworkCore;
 using System.Text.Json;
 using TwitterCloneBackend.DDD;
 using TwitterCloneBackend.DDD.Models;
@@ -78,14 +79,20 @@ namespace TwitterCloneClient.Consumer.Consumer
                                     .ForEach(x =>
                                     {
                                         Console.WriteLine(x);
-                                        Console.WriteLine(x.Profile.ProfileName);
+                                        Console.WriteLine(x.Profile?.ProfileName);
                                     });
 
 
                                 Console.WriteLine("LINQ loop end");
                             }
 
-                            var dataContext = new DataContext();
+                            // Used if InMemorySupport.
+                            // Check DbContext - DDD project.
+                            var optionsBuilder =
+                                new DbContextOptionsBuilder<DataContext>();
+
+                            var dataContext = new DataContext(optionsBuilder.Options);
+                            //var dataContext = new DataContext();
                             dataContext.Users.Add(obj);
                             dataContext.SaveChanges();
                             Console.WriteLine("Saved into database!");
