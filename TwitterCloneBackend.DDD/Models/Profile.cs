@@ -3,15 +3,15 @@
 public class Profile : Base
 {
 
-    public string ProfileName { get; set; }
+    public string? ProfileName { get; set; }
 
-    public string Biography { get; set; }
+    public string? Biography { get; set; }
 
-    public Location Location { get; set; }
+    public Location? Location { get; set; }
 
-    public string Website { get; set; }
+    public string? Website { get; set; }
 
-    public DateTime BirthDate { get; set; }
+    public DateTime? BirthDate { get; set; }
 
-    public List<Tweet> Tweets { get; set; } = new List<Tweet>();
+    public List<Tweet>? Tweets { get; set; } = new List<Tweet>();
 }
