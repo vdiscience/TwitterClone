@@ -26,7 +26,7 @@ public class Program
             Thread.Sleep(3000);
             task = Tweet(tweet);
 
-            // call it once after update
+            // remove the tweet from concurrent collection after submission.
             removed = RemoveTweet(tweet);
         });
 
@@ -37,7 +37,7 @@ public class Program
             Thread.Sleep(5000);
             task = Tweet(tweet);
 
-            // call it once after update
+            // remove the tweet from concurrent collection after submission.
             removed = RemoveTweet(tweet);
         });
 
@@ -47,7 +47,7 @@ public class Program
             Thread.Sleep(8000);
             task = Tweet(tweet);
 
-            // call it once after update
+            // remove the tweet from concurrent collection after submission.
             removed = RemoveTweet(tweet);
         });
 
