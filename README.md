@@ -8,4 +8,4 @@ The solution features layered architecture, by utilising DDD - Domain Driven Des
 
 # Future works on the backlog.
 > Logging implementation. <br>
-> Adding more functionality.
+> Adding more functionality. <br>
