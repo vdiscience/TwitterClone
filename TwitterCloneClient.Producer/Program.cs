@@ -27,7 +27,7 @@ public class Program
             task = Tweet(tweet);
 
             // remove the tweet from concurrent collection after submission.
-            removed = RemoveTweet(tweet);
+            //removed = RemoveTweet(tweet);
         });
 
         Task t2 = Task.Factory.StartNew(() =>
@@ -38,7 +38,7 @@ public class Program
             task = Tweet(tweet);
 
             // remove the tweet from concurrent collection after submission.
-            removed = RemoveTweet(tweet);
+            //removed = RemoveTweet(tweet);
         });
 
         Task t3 = Task.Factory.StartNew(() =>
@@ -48,7 +48,7 @@ public class Program
             task = Tweet(tweet);
 
             // remove the tweet from concurrent collection after submission.
-            removed = RemoveTweet(tweet);
+            //removed = RemoveTweet(tweet);
         });
 
 

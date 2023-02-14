@@ -25,7 +25,7 @@ namespace TwitterClone.Web.API.Controllers
 
         // GET: api/Cities
         [HttpGet]
-        [Authorize]  //👈 new code
+        //[Authorize]  //👈 new code
         public async Task<ActionResult<IEnumerable<City>>> GetCities()
         {
             return await _context.Cities.ToListAsync();
@@ -79,7 +79,7 @@ namespace TwitterClone.Web.API.Controllers
         // POST: api/Cities
         // To protect from over-posting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        [Authorize]  //👈 new code
+        //[Authorize]  //👈 new code
         public async Task<ActionResult<City>> PostCity(City city)
         {
             _context.Cities.Add(city);
