@@ -7,7 +7,7 @@ Twitter clone is a .NET Core, c# complex, backend ditributed system under develo
 # The solution features layered architecture, by utilising;
 > DDD - Domain Driven Design. <br> 
 > Submitting a "tweet" via message broker "Active ApacheMQ".<br> 
-> Entity Framework. (LocalDb and S1lite implementation.) <br>
+> Entity Framework. (LocalDb and Sqlite implementation.) <br>
 > WEB API - Swagger Documentation. <br>
 
 # Future works on the backlog.
