@@ -16,11 +16,14 @@ namespace TwitterClone.Web.API.Controllers
     [ApiController]
     public class CitiesController : ControllerBase
     {
+        private ILogger _logger;
+
         private readonly DataContext _context;
 
-        public CitiesController(DataContext context)
+        public CitiesController(DataContext context, ILogger<CitiesController> logger)
         {
             _context = context;
+            _logger = logger;
         }
 
         // GET: api/Cities
@@ -28,7 +31,23 @@ namespace TwitterClone.Web.API.Controllers
         //[Authorize]  //👈 new code
         public async Task<ActionResult<IEnumerable<City>>> GetCities()
         {
-            return await _context.Cities.ToListAsync();
+            _logger.LogInformation("GetCities Started...");
+            var result = await _context.Cities.ToListAsync();
+
+            try
+            {
+                if (result == null)
+                {
+                    _logger.LogInformation("GetCities is empty...");
+                    return result;
+                }
+            }
+            catch (Exception ex)
+            {
+
+                _logger.LogCritical("GetCities critical error:", ex);
+            }
+            return result;
         }
 
         // GET: api/Cities/5
@@ -37,11 +56,19 @@ namespace TwitterClone.Web.API.Controllers
         {
             var city = await _context.Cities.FindAsync(id);
 
-            if (city == null)
+            try
             {
-                return NotFound();
+                if (city == null)
+                {
+                    _logger.LogInformation($"City by id {id} not found.");
+                    return NotFound();
+                }
             }
+            catch (Exception ex)
+            {
 
+                _logger.LogCritical("GetCities critical error:", ex);
+            }
             return city;
         }
 
@@ -52,6 +79,7 @@ namespace TwitterClone.Web.API.Controllers
         {
             if (id != city.Id)
             {
+                _logger.LogInformation($"Wrong City ID {id}.");
                 return BadRequest();
             }
 
@@ -61,14 +89,16 @@ namespace TwitterClone.Web.API.Controllers
             {
                 await _context.SaveChangesAsync();
             }
-            catch (DbUpdateConcurrencyException)
+            catch (DbUpdateConcurrencyException ex)
             {
                 if (!CityExists(id))
                 {
+                    _logger.LogInformation($"City by id {id} not found.");
                     return NotFound();
                 }
                 else
                 {
+                    _logger.LogCritical("GetCities DbUpdateConcurrencyException error:", ex);
                     throw;
                 }
             }
@@ -95,18 +125,40 @@ namespace TwitterClone.Web.API.Controllers
             var city = await _context.Cities.FindAsync(id);
             if (city == null)
             {
+                _logger.LogInformation($"City by id {id} not found.");
                 return NotFound();
             }
 
-            _context.Cities.Remove(city);
-            await _context.SaveChangesAsync();
+            try
+            {
+                _context.Cities.Remove(city);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogCritical("GetCities DbUpdateConcurrencyException error:", ex);
+                throw;
+            }
 
+            _logger.LogInformation($"City id {id} deleted.");
             return NoContent();
         }
 
         private bool CityExists(Guid id)
         {
-            return _context.Cities.Any(e => e.Id == id);
+            try
+            {
+                if (id != null)
+                {
+                    _logger.LogInformation($"City by id {id} found.");
+                    return _context.Cities.Any(e => e.Id == id);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogCritical("GetCities DbUpdateConcurrencyException error:", ex);
+                throw;
+            }
         }
     }
 }
