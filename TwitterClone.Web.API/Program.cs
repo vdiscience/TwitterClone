@@ -35,9 +35,6 @@ builder.Services.AddControllersWithViews()
     .AddNewtonsoftJson(options =>
         options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
-
-builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-
 builder.Services.AddDbContext<DataContext>
 (opt => opt.UseInMemoryDatabase("TwitterClone"));
 //(opt => opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
