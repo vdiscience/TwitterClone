@@ -6,6 +6,8 @@ using TwitterCloneBackend.DDD;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
 // Add services to the container.
 //builder.Services.AddControllers();
 
@@ -24,7 +26,9 @@ var builder = WebApplication.CreateBuilder(args);
 //});
 //👆 new code
 
-
+// Setup Logger
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
 
 builder.Services.AddControllers()
     .AddNewtonsoftJson(options =>
