@@ -3,27 +3,32 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Serialization;
 using TwitterCloneBackend.DDD;
+using TwitterCloneBackend.Services.Contracts;
+using TwitterCloneBackend.Services.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+// DI - Registration of services.
+builder.Services.AddScoped<IProfileService, ProfileService>();
+builder.Services.AddScoped<ITweetService, TweetService>();
+builder.Services.AddScoped<IUsersService, UsersService>();
 
 // Add services to the container.
-//builder.Services.AddControllers();
+builder.Services.AddControllers();
 
 //👇 new code
-//builder.Services.AddAuthentication(options =>
-//{
-//    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-//    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-//}).AddJwtBearer(options =>
-//{
-//    //options.Authority = $"https://{Configuration["Auth0:Domain"]}/";
-//    //options.Audience = Configuration["Auth0:Audience"];
-//    //https://localhost:7028;http://localhost:5028
-//    options.Authority = $"https://localhost:7028";
-//    options.Audience = "http://localhost:5028";
-//});
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(options =>
+{
+    //options.Authority = $"https://{Configuration["Auth0:Domain"]}/";
+    //options.Audience = Configuration["Auth0:Audience"];
+    //https://localhost:7028;http://localhost:5028
+    options.Authority = $"https://localhost:7028";
+    options.Audience = "http://localhost:5028";
+});
 //👆 new code
 
 // Setup Logger
@@ -48,26 +53,26 @@ builder.Services.AddSwaggerGen(c =>
     c.SwaggerDoc("v1", new() { Title = "Twitter Clone", Version = "v1" });
 
     //👇 new code
-    //var securitySchema = new OpenApiSecurityScheme
-    //{
-    //    Description = "Using the Authorization header with the Bearer scheme.",
-    //    Name = "Authorization",
-    //    In = ParameterLocation.Header,
-    //    Type = SecuritySchemeType.Http,
-    //    Scheme = "bearer",
-    //    Reference = new OpenApiReference
-    //    {
-    //        Type = ReferenceType.SecurityScheme,
-    //        Id = "Bearer"
-    //    }
-    //};
+    var securitySchema = new OpenApiSecurityScheme
+    {
+        Description = "Using the Authorization header with the Bearer scheme.",
+        Name = "Authorization",
+        In = ParameterLocation.Header,
+        Type = SecuritySchemeType.Http,
+        Scheme = "bearer",
+        Reference = new OpenApiReference
+        {
+            Type = ReferenceType.SecurityScheme,
+            Id = "Bearer"
+        }
+    };
 
-    //c.AddSecurityDefinition("Bearer", securitySchema);
+    c.AddSecurityDefinition("Bearer", securitySchema);
 
-    //c.AddSecurityRequirement(new OpenApiSecurityRequirement
-    //      {
-    //          { securitySchema, new[] { "Bearer" } }
-    //      });
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+          {
+              { securitySchema, new[] { "Bearer" } }
+          });
     //👆 new code
 });
 

@@ -9,7 +9,7 @@ namespace TwitterCloneClient.Producer;
 
 public class Program
 {
-    // Simulation of concurenncy. Concurent tweet action.
+    // Simulation of concurrency. Concurrent tweet action.
     public static ConcurrentDictionary<Guid, string> tweet = new ConcurrentDictionary<Guid, string>();
 
     public static void Main()

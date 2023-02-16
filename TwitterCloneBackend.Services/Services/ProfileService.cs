@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.EntityFrameworkCore;
 using TwitterCloneBackend.DDD;
 using TwitterCloneBackend.DDD.Models;
 using TwitterCloneBackend.Services.Contracts;
@@ -11,34 +7,78 @@ namespace TwitterCloneBackend.Services.Services
 {
     public class ProfileService : IProfileService
     {
-        private DataContext _dataContext;
+        private DataContext _context;
 
-        public ProfileService(DataContext dataContext)
+        public ProfileService(DataContext context)
         {
-            _dataContext = dataContext;
+            _context = context;
         }
 
-        /// <summary>
-        /// Adds or updates a profile to the existing user
-        /// </summary>
-        /// <param name="user"></param>
-        /// <param name="profile"></param>
-        /// <returns></returns>
-        /// <exception cref="AccessViolationException"></exception>
-        public async Task<User> UpdateProfile(User user, Profile profile)
+        public async Task<IEnumerable<Profile>> GetProfiles()
         {
-            var currentUser = _dataContext.Users.FirstOrDefault(x => x.UserName == user.UserName);
-            if (currentUser == null)
+            return await _context.Profiles.ToListAsync();
+        }
+
+        public async Task<Profile> GetProfile(Guid id)
+        {
+            var profile = await _context.Profiles.FindAsync(id);
+
+            if (profile == null)
             {
-                throw new AccessViolationException("You cannot add a new profile to this user!");
+                throw new ArgumentException("Profile not found!");
             }
 
-            currentUser.Profile = profile;
+            return profile;
+        }
 
-            _dataContext.Users.Update(currentUser);
-            await _dataContext.SaveChangesAsync();
+        public async Task UpdateProfile(Guid id, Profile profile)
+        {
+            if (id != profile.Id)
+            {
+                throw new ArgumentException("ID and the Supplied Profile ID don't match.");
+            }
 
-            return currentUser;
+            _context.Entry(profile).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!ProfileExists(id))
+                {
+                    throw new ArgumentException("Profile does not exist.");
+                }
+                else
+                {
+                    throw;
+                }
+            }
+        }
+
+        public async Task<Profile> InsertProfile(Profile profile)
+        {
+            _context.Profiles.Add(profile);
+            await _context.SaveChangesAsync();
+            return profile;
+        }
+
+        public async Task DeleteProfile(Guid id)
+        {
+            var profile = await _context.Profiles.FindAsync(id);
+            if (profile == null)
+            {
+                throw new ArgumentException("Profile Id does not exist.");
+            }
+
+            _context.Profiles.Remove(profile);
+            await _context.SaveChangesAsync();
+        }
+
+        private bool ProfileExists(Guid id)
+        {
+            return _context.Profiles.Any(e => e.Id == id);
         }
     }
 }

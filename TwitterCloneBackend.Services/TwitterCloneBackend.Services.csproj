@@ -8,10 +8,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Contracts\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\TwitterCloneBackend.DDD\TwitterCloneBackend.DDD.csproj" />
   </ItemGroup>
 

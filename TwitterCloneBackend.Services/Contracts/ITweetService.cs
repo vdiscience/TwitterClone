@@ -6,9 +6,9 @@ namespace TwitterCloneBackend.Services.Contracts;
 public interface ITweetService
 {
     /// <summary>
-    /// Return all tweets.
+    /// Return all tweet.
     /// </summary>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    Task<List<Tweet>> GetAllTweets(PagingParameters pagingParameters, CancellationToken cancellationToken);
+    Task<List<Tweet>> GetAllTweet(PagingParameters pagingParameters, CancellationToken cancellationToken);
 }

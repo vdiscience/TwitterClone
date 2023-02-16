@@ -16,11 +16,11 @@ namespace TwitterCloneBackend.Services.Services
         }
 
         /// <summary>
-        /// Return all tweets.
+        /// Return all tweet.
         /// </summary>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public async Task<List<Tweet>> GetAllTweets(PagingParameters pagingParameters, CancellationToken cancellationToken)
+        public async Task<List<Tweet>> GetAllTweet(PagingParameters pagingParameters, CancellationToken cancellationToken)
         {
             if (pagingParameters == null) throw new ArgumentNullException(nameof(pagingParameters));
 
