@@ -1,10 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TwitterCloneBackend.DDD.Models;
+using static TwitterCloneBackend.DDD.DataContext;
 
 namespace TwitterCloneBackend.DDD
 {
-    public class DataContext : DbContext
+    public sealed class DataContext : DbContext
     {
+
         #region InMemorySupport Setup
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         {

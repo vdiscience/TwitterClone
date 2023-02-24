@@ -1,20 +1,18 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using TwitterCloneBackend.DDD.enums;
 using TwitterCloneBackend.DDD.Models;
 using TwitterCloneClient.Producer.Producer;
 
 namespace TwitterCloneClient.Producer;
 
-public class Program
+public abstract class Program
 {
     // Simulation of concurrency. Concurrent tweet action.
-    public static ConcurrentDictionary<Guid, string> tweet = new ConcurrentDictionary<Guid, string>();
+    private static ConcurrentDictionary<Guid, string> tweet = new ConcurrentDictionary<Guid, string>();
 
     public static void Main()
     {
-
         Guid id;
         id = Guid.NewGuid();
         Task task;
@@ -72,7 +70,7 @@ public class Program
         return (Task<bool>)Task.CompletedTask;
     }
 
-    public static Task Tweet(ConcurrentDictionary<Guid, string> tweet)
+    private static Task Tweet(ConcurrentDictionary<Guid, string> tweet)
     {
         foreach (var tw in tweet)
         {
@@ -111,7 +109,7 @@ public class Program
                             {
                                 MediaPath = "TextTweet",
                                 TweetText = "Buy my book. Learn c# programming",
-                                Tags = "#programmingbook",
+                                Tags = "#programming book",
                                 ReplyType = ReplyType.Everyone,
                                 Replies = new List<Replies>
                                 {

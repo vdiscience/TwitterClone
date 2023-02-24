@@ -1,8 +1,5 @@
 ﻿using Apache.NMS;
 using Apache.NMS.Util;
-using Newtonsoft.Json;
-using TwitterCloneBackend.DDD.enums;
-using TwitterCloneBackend.DDD.Models;
 
 namespace TwitterCloneClient.Producer.Producer
 {

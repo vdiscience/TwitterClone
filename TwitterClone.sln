@@ -18,7 +18,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TwitterCloneBackend.Service
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TwitterCloneClient.Consumer", "TwitterCloneClient.Consumer\TwitterCloneClient.Consumer.csproj", "{E69BF4B0-D129-4C73-9DD6-D9FD90057B92}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwitterClone.Web.API", "TwitterClone.Web.API\TwitterClone.Web.API.csproj", "{609944C2-17D8-4C24-BBE8-FDB37C40A399}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TwitterClone.Web.API", "TwitterClone.Web.API\TwitterClone.Web.API.csproj", "{609944C2-17D8-4C24-BBE8-FDB37C40A399}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

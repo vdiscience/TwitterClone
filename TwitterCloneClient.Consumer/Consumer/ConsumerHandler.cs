@@ -7,11 +7,11 @@ using TwitterCloneBackend.DDD.Models;
 
 namespace TwitterCloneClient.Consumer.Consumer
 {
-    public class ConsumerHandler
+    public abstract class ConsumerHandler
     {
-        protected static AutoResetEvent Semaphore = new AutoResetEvent(false);
-        protected static ITextMessage Message = null;
-        protected static TimeSpan ReceiveTimeout = TimeSpan.FromSeconds(30);
+        private static AutoResetEvent Semaphore = new AutoResetEvent(false);
+        private static ITextMessage Message = null;
+        private static TimeSpan ReceiveTimeout = TimeSpan.FromSeconds(30);
 
         public static void Consumer()
         {
@@ -29,6 +29,7 @@ namespace TwitterCloneClient.Consumer.Consumer
             IConnectionFactory factory = new NMSConnectionFactory(connectUri);
 
             using (IConnection connection = factory.CreateConnection())
+
             using (ISession session = connection.CreateSession())
             {
                 IDestination destination = SessionUtil.GetDestination(session, "queue://Tweet");
@@ -45,58 +46,44 @@ namespace TwitterCloneClient.Consumer.Consumer
                     // Wait for the message
                     Semaphore.WaitOne((int)ReceiveTimeout.TotalMilliseconds, true);
 
-                    if (Message == null)
+                    if (Message.NMSCorrelationID == "Tweet")
                     {
-                        Console.WriteLine("No message received!");
-                    }
-                    else
-                    {
-                        if (Message.NMSCorrelationID == "Tweet")
+                        Console.WriteLine("Destination: " + Message.NMSDestination);
+                        Console.WriteLine("Correlation ID: " + Message.NMSCorrelationID);
+                        Console.WriteLine("Received message with ID:   " + Message.NMSMessageId);
+                        Console.WriteLine("Received message with text: " + Message.Text);
+                        Console.WriteLine("Priority: " + Message.NMSPriority);
+                        Console.WriteLine("Delivery Mode: " + Message.NMSDeliveryMode);
+
+                        var obj = DeserializeUsingGenericSystemTextJson(Message.Text);
+
+                        Console.WriteLine();
+                        Console.WriteLine();
+                        Console.WriteLine(value: obj?.UserName);
+                        Console.WriteLine();
+
+                        if (obj.Profile != null)
                         {
-                            Console.WriteLine("Destination: " + Message.NMSDestination);
-                            Console.WriteLine("Correlation ID: " + Message.NMSCorrelationID);
-                            Console.WriteLine("Received message with ID:   " + Message.NMSMessageId);
-                            Console.WriteLine("Received message with text: " + Message.Text);
-                            Console.WriteLine("Priority: " + Message.NMSPriority);
-                            Console.WriteLine("Delivery Mode: " + Message.NMSDeliveryMode);
-
-                            var obj = DeserializeUsingGenericSystemTextJson(Message.Text);
-
-                            Console.WriteLine();
-                            Console.WriteLine();
-                            Console.WriteLine(value: obj?.UserName);
-                            Console.WriteLine();
-
-                            if (obj.Profile != null)
-                            {
-                                //foreach (var profileTweet in obj.Profile.Tweets)
-                                //{
-                                //    Console.WriteLine(profileTweet.TweetText);
-                                //}
-
-                                Console.WriteLine("LINQ loop start");
-                                obj.Profile.Tweets
-                                    .ForEach(x =>
-                                    {
-                                        Console.WriteLine(x);
-                                        Console.WriteLine(x.Profile?.ProfileName);
-                                    });
+                            Console.WriteLine("LINQ loop start");
+                            obj.Profile.Tweets?.ForEach(x =>
+                                {
+                                    Console.WriteLine(x);
+                                    Console.WriteLine(x.Profile?.ProfileName);
+                                });
 
 
-                                Console.WriteLine("LINQ loop end");
-                            }
-
-                            // Used if InMemorySupport.
-                            // Check DbContext - DDD project.
-                            var optionsBuilder =
-                                new DbContextOptionsBuilder<DataContext>();
-
-                            var dataContext = new DataContext(optionsBuilder.Options);
-                            //var dataContext = new DataContext();
-                            dataContext.Users.Add(obj);
-                            dataContext.SaveChanges();
-                            Console.WriteLine("Saved into database!");
+                            Console.WriteLine("LINQ loop end");
                         }
+
+                        // Used if InMemorySupport.
+                        // Check DbContext - DDD project.
+                        var optionsBuilder = new DbContextOptionsBuilder<DataContext>();
+
+                        var dataContext = new DataContext(optionsBuilder.Options);
+                        //var dataContext = new DataContext();
+                        dataContext.Users.Add(obj);
+                        dataContext.SaveChanges();
+                        Console.WriteLine("Saved into database!");
                     }
                 }
             }
@@ -115,12 +102,6 @@ namespace TwitterCloneClient.Consumer.Consumer
                 Message = receivedMsg as ITextMessage;
                 Semaphore.Set();
             }
-        }
-
-        void OnMessage(IMessage receivedMsg)
-        {
-            Message = receivedMsg as ITextMessage;
-            Semaphore.Set();
         }
     }
 }
