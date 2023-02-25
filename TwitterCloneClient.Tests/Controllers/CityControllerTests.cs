@@ -9,12 +9,13 @@ namespace TwitterCloneClient.Tests.Controllers
     public class CitiesControllerTests
     {
         private readonly DataContext _dataContext;
-        private readonly string _connectionString = "Server=(localdb)\\mssqllocaldb;Database=TestDatabase;Trusted_Connection=True;MultipleActiveResultSets=true";
 
         /// <summary>
         /// Use this constructor if testing conducted with a real MSSQL DB.
         /// </summary>
         #region MSSQLDBTesting
+        // private readonly string _connectionString = "Server=(localdb)\\mssqllocaldb;Database=TestDatabase;Trusted_Connection=True;MultipleActiveResultSets=true";
+
         //public CitiesControllerTests()
         //{
         //    var options = new DbContextOptionsBuilder<DataContext>()
