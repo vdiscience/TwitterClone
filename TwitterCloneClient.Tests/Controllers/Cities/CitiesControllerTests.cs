@@ -3,8 +3,9 @@ using Microsoft.EntityFrameworkCore;
 using TwitterClone.Web.API.Controllers;
 using TwitterCloneBackend.DDD;
 using TwitterCloneBackend.DDD.Models;
+using Xunit;
 
-namespace TwitterCloneClient.Tests.Controllers
+namespace TwitterCloneClient.Tests.Controllers.Cities
 {
     public class CitiesControllerTests
     {
@@ -40,6 +41,34 @@ namespace TwitterCloneClient.Tests.Controllers
         }
 
         [Fact]
+        public async Task GetCities_ReturnsAllCities()
+        {
+            // Arrange
+            var cities = new List<City>
+            {
+                new City { Id = Guid.NewGuid(), CityName = "City 1" },
+                new City { Id = Guid.NewGuid(), CityName = "City 2" },
+                new City { Id = Guid.NewGuid(), CityName = "City 3" },
+            };
+
+            await _dataContext.Cities.AddRangeAsync(cities);
+            await _dataContext.SaveChangesAsync();
+
+            var controller = new CitiesController(_dataContext);
+
+            // Act
+            var result = await controller.GetCities();
+
+            // Assert
+            var actionResult = Assert.IsType<ActionResult<IEnumerable<City>>>(result);
+            var returnValue = Assert.IsType<List<City>>(actionResult.Value);
+
+
+            Assert.Equal(cities.Count, returnValue.Count);
+            Assert.Equal(3, returnValue.Count);
+        }
+
+        [Fact]
         public async Task PostCity_ReturnsCreatedResponse()
         {
             // Arrange
@@ -53,31 +82,6 @@ namespace TwitterCloneClient.Tests.Controllers
             var createdAtActionResult = Assert.IsType<CreatedAtActionResult>(result.Result);
             var returnedCity = Assert.IsType<City>(createdAtActionResult.Value);
             Assert.Equal(city.CityName, returnedCity.CityName);
-        }
-
-        [Fact]
-        public async Task GetCities_ReturnsAllCities()
-        {
-            // Arrange
-            var cities = new List<City>
-            {
-                new City { Id = Guid.NewGuid(), CityName = "City 1" },
-                new City { Id = Guid.NewGuid(), CityName = "City 2" },
-                new City { Id = Guid.NewGuid(), CityName = "City 3" },
-            };
-            await _dataContext.Cities.AddRangeAsync(cities);
-            await _dataContext.SaveChangesAsync();
-
-            var controller = new CitiesController(_dataContext);
-
-            // Act
-            var result = await controller.GetCities();
-
-            // Assert
-            var actionResult = Assert.IsType<ActionResult<IEnumerable<City>>>(result);
-            var returnValue = Assert.IsType<List<City>>(actionResult.Value);
-            Assert.Equal(cities.Count, returnValue.Count);
-            Assert.Equal(3, returnValue.Count);
         }
 
         [Fact]
@@ -162,7 +166,6 @@ namespace TwitterCloneClient.Tests.Controllers
             Assert.Equal(null, result.Result);
         }
 
-
         [Fact]
         public async Task PostCity_WithValidData_ReturnsCreatedAtActionResultWithCityObject()
         {
@@ -183,7 +186,6 @@ namespace TwitterCloneClient.Tests.Controllers
             Assert.Equal(city.CityName, createdCity.CityName);
             Assert.Equal(city.CityName, createdCity.CityName);
         }
-
 
         [Fact]
         public async Task PutCity_WithValidId_ReturnsNoContent()

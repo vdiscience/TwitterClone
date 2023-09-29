@@ -12,7 +12,7 @@
 	</ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TwitterCloneBackend.DDD\TwitterCloneBackend.DDD.csproj" />
+    <ProjectReference Include="..\TwitterCloneBackend.DDD\TwitterCloneBackend.Entities.csproj" />
   </ItemGroup>
 
 </Project>

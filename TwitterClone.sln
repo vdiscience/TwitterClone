@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32616.157
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TwitterCloneBackend.DDD", "TwitterCloneBackend.DDD\TwitterCloneBackend.DDD.csproj", "{9F363805-CD9A-4E8E-87E5-CF9E3C2EF063}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TwitterCloneBackend.Entities", "TwitterCloneBackend.DDD\TwitterCloneBackend.Entities.csproj", "{9F363805-CD9A-4E8E-87E5-CF9E3C2EF063}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TwitterCloneClient.Producer", "TwitterCloneClient.Producer\TwitterCloneClient.Producer.csproj", "{DBEDE3C5-2B58-4042-A142-B593EF122A14}"
 	ProjectSection(ProjectDependencies) = postProject

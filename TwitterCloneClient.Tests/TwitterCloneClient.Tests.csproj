@@ -25,7 +25,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\TwitterClone.Web.API\TwitterClone.Web.API.csproj" />
-    <ProjectReference Include="..\TwitterCloneBackend.DDD\TwitterCloneBackend.DDD.csproj" />
+    <ProjectReference Include="..\TwitterCloneBackend.DDD\TwitterCloneBackend.Entities.csproj" />
   </ItemGroup>
 
 </Project>
