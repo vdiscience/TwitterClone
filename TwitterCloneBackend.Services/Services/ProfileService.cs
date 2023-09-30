@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using TwitterCloneBackend.DDD;
-using TwitterCloneBackend.DDD.Models;
+using TwitterCloneBackend.Entities;
+using TwitterCloneBackend.Entities.Models;
 using TwitterCloneBackend.Services.Contracts;
 
 namespace TwitterCloneBackend.Services.Services

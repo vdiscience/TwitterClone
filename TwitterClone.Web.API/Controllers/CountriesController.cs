@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using TwitterCloneBackend.DDD;
-using TwitterCloneBackend.DDD.Models;
+using TwitterCloneBackend.Entities;
+using TwitterCloneBackend.Entities.Models;
 
 namespace TwitterClone.Web.API.Controllers
 {

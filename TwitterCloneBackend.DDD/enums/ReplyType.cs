@@ -1,4 +1,4 @@
-﻿namespace TwitterCloneBackend.DDD.enums;
+﻿namespace TwitterCloneBackend.Entities.enums;
 
 public enum ReplyType
 {

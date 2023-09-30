@@ -1,6 +1,6 @@
-﻿using TwitterCloneBackend.DDD.enums;
+﻿using TwitterCloneBackend.Entities.enums;
 
-namespace TwitterCloneBackend.DDD.Models;
+namespace TwitterCloneBackend.Entities.Models;
 
 public class Tweet : Base
 {

@@ -1,4 +1,4 @@
-﻿namespace TwitterCloneBackend.DDD.Models
+﻿namespace TwitterCloneBackend.Entities.Models
 {
     /// <summary>
     /// Enterprise Domain Driven Design pattern.
