@@ -1,11 +1,11 @@
-﻿namespace TwitterCloneBackend.DDD.Models
+﻿namespace TwitterCloneBackend.Entities.Models
 {
     public class Base
     {
         public Base()
         {
-            this.Id = Guid.NewGuid();
-            this.DateTimeEntered = DateTime.Now;
+            Id = Guid.NewGuid();
+            DateTimeEntered = DateTime.Now;
         }
         public Guid Id { get; set; }
 

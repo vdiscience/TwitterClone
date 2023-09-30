@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Serialization;
-using TwitterCloneBackend.DDD;
+using TwitterCloneBackend.Entities;
 using TwitterCloneBackend.Services.Contracts;
 using TwitterCloneBackend.Services.Services;
 

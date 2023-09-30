@@ -1,4 +1,4 @@
-﻿using TwitterCloneBackend.DDD.Models;
+﻿using TwitterCloneBackend.Entities.Models;
 using TwitterCloneBackend.Services.Handlers;
 
 namespace TwitterCloneBackend.Services.Contracts;

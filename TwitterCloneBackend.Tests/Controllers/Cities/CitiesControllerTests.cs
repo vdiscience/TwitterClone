@@ -1,60 +1,21 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using TwitterClone.Web.API.Controllers;
-using TwitterCloneBackend.DDD;
-using TwitterCloneBackend.DDD.Models;
+using TwitterCloneBackend.Entities.Models;
+using TwitterCloneBackend.Tests.Repository;
 using Xunit;
 
-namespace TwitterCloneClient.Tests.Controllers.Cities
+namespace TwitterCloneBackend.Tests.Controllers.Cities
 {
     public class CitiesControllerTests
     {
-        private readonly DataContext _dataContext;
-
-        /// <summary>
-        /// Use this constructor if testing conducted with a real MSSQL DB.
-        /// </summary>
-        #region MSSQLDBTesting
-        // private readonly string _connectionString = "Server=(localdb)\\mssqllocaldb;Database=TestDatabase;Trusted_Connection=True;MultipleActiveResultSets=true";
-
-        //public CitiesControllerTests()
-        //{
-        //    var options = new DbContextOptionsBuilder<DataContext>()
-        //        .UseSqlServer(_connectionString)
-        //        .Options;
-
-        //    _dataContext = new DataContext(options);
-        //    _dataContext.Database.EnsureDeleted();
-        //    _dataContext.Database.Migrate();
-        //}
-        #endregion MSSQLDBTesting
-
-        public CitiesControllerTests()
-        {
-            // Initialize a new instance of DataContext
-            // This will create an in-memory database for testing
-            var options = new DbContextOptionsBuilder<DataContext>()
-                .UseInMemoryDatabase(databaseName: "TestDatabase")
-                .Options;
-
-            _dataContext = new DataContext(options);
-        }
-
         [Fact]
         public async Task GetCities_ReturnsAllCities()
         {
             // Arrange
-            var cities = new List<City>
-            {
-                new City { Id = Guid.NewGuid(), CityName = "City 1" },
-                new City { Id = Guid.NewGuid(), CityName = "City 2" },
-                new City { Id = Guid.NewGuid(), CityName = "City 3" },
-            };
+            await DbContextService._dataContext.Cities.AddRangeAsync(CitiesRepo.Cities.AsQueryable());
+            await DbContextService._dataContext.SaveChangesAsync();
 
-            await _dataContext.Cities.AddRangeAsync(cities);
-            await _dataContext.SaveChangesAsync();
-
-            var controller = new CitiesController(_dataContext);
+            var controller = new CitiesController(DbContextService._dataContext);
 
             // Act
             var result = await controller.GetCities();
@@ -63,8 +24,7 @@ namespace TwitterCloneClient.Tests.Controllers.Cities
             var actionResult = Assert.IsType<ActionResult<IEnumerable<City>>>(result);
             var returnValue = Assert.IsType<List<City>>(actionResult.Value);
 
-
-            Assert.Equal(cities.Count, returnValue.Count);
+            Assert.Equal(CitiesRepo.Cities.Count, returnValue.Count);
             Assert.Equal(3, returnValue.Count);
         }
 
@@ -72,7 +32,7 @@ namespace TwitterCloneClient.Tests.Controllers.Cities
         public async Task PostCity_ReturnsCreatedResponse()
         {
             // Arrange
-            var controller = new CitiesController(_dataContext);
+            var controller = new CitiesController(DbContextService._dataContext);
             var city = new City { CityName = "New York" };
 
             // Act
@@ -81,6 +41,7 @@ namespace TwitterCloneClient.Tests.Controllers.Cities
             // Assert
             var createdAtActionResult = Assert.IsType<CreatedAtActionResult>(result.Result);
             var returnedCity = Assert.IsType<City>(createdAtActionResult.Value);
+
             Assert.Equal(city.CityName, returnedCity.CityName);
         }
 
@@ -89,10 +50,10 @@ namespace TwitterCloneClient.Tests.Controllers.Cities
         {
             // Arrange
             var city = new City { CityName = "City 1" };
-            await _dataContext.Cities.AddAsync(city);
-            await _dataContext.SaveChangesAsync();
+            await DbContextService._dataContext.Cities.AddAsync(city);
+            await DbContextService._dataContext.SaveChangesAsync();
 
-            var controller = new CitiesController(_dataContext);
+            var controller = new CitiesController(DbContextService._dataContext);
 
             // Act
             var result = await controller.GetCity(city.Id);
@@ -107,7 +68,7 @@ namespace TwitterCloneClient.Tests.Controllers.Cities
         public async Task GetCity_WithInvalidId_ReturnsNotFound()
         {
             // Arrange
-            var controller = new CitiesController(_dataContext);
+            var controller = new CitiesController(DbContextService._dataContext);
 
             // Act
             var result = await controller.GetCity(Guid.NewGuid());
@@ -121,19 +82,19 @@ namespace TwitterCloneClient.Tests.Controllers.Cities
         {
             // Arrange
             var city = new City { CityName = "City 1" };
-            await _dataContext.Cities.AddAsync(city);
-            await _dataContext.SaveChangesAsync();
+            await DbContextService._dataContext.Cities.AddAsync(city);
+            await DbContextService._dataContext.SaveChangesAsync();
 
             var updatedCity = new City { Id = city.Id, CityName = "Updated City 1" };
 
-            var controller = new CitiesController(_dataContext);
+            var controller = new CitiesController(DbContextService._dataContext);
 
             // Act
             var result = await controller.PutCity(city.Id, updatedCity);
 
             // Assert
             Assert.IsType<NoContentResult>(result);
-            var updatedCityFromDb = await _dataContext.Cities.FindAsync(city.Id);
+            var updatedCityFromDb = await DbContextService._dataContext.Cities.FindAsync(city.Id);
             Assert.Equal(updatedCity.CityName, updatedCityFromDb.CityName);
         }
 
@@ -142,9 +103,9 @@ namespace TwitterCloneClient.Tests.Controllers.Cities
         {
             // Arrange
             var city = new City { Id = Guid.NewGuid(), CityName = "Test City" };
-            _dataContext.Cities.Add(city);
-            await _dataContext.SaveChangesAsync();
-            var controller = new CitiesController(_dataContext);
+            DbContextService._dataContext.Cities.Add(city);
+            await DbContextService._dataContext.SaveChangesAsync();
+            var controller = new CitiesController(DbContextService._dataContext);
 
             // Act
             var result = await controller.PutCity(Guid.NewGuid(), city);
@@ -158,7 +119,7 @@ namespace TwitterCloneClient.Tests.Controllers.Cities
         public async Task GetCities_ReturnsNull()
         {
             // Arrange
-            var controller = new CitiesController(_dataContext);
+            var controller = new CitiesController(DbContextService._dataContext);
 
             // Act & Assert
             var result = await controller.GetCities();
@@ -170,7 +131,7 @@ namespace TwitterCloneClient.Tests.Controllers.Cities
         public async Task PostCity_WithValidData_ReturnsCreatedAtActionResultWithCityObject()
         {
             // Arrange
-            var controller = new CitiesController(_dataContext);
+            var controller = new CitiesController(DbContextService._dataContext);
             var city = new City
             {
                 CityName = "New York",
@@ -191,10 +152,11 @@ namespace TwitterCloneClient.Tests.Controllers.Cities
         public async Task PutCity_WithValidId_ReturnsNoContent()
         {
             // Arrange
-            var controller = new CitiesController(_dataContext);
+            var controller = new CitiesController(DbContextService._dataContext);
             var city = new City { Id = Guid.NewGuid(), CityName = "New York" };
-            await _dataContext.Cities.AddAsync(city);
-            await _dataContext.SaveChangesAsync();
+
+            await DbContextService._dataContext.Cities.AddAsync(city);
+            await DbContextService._dataContext.SaveChangesAsync();
 
             // Act
             city.CityName = "Updated City Name";
@@ -202,7 +164,7 @@ namespace TwitterCloneClient.Tests.Controllers.Cities
 
             // Assert
             Assert.IsType<NoContentResult>(result);
-            var updatedCity = await _dataContext.Cities.FindAsync(city.Id);
+            var updatedCity = await DbContextService._dataContext.Cities.FindAsync(city.Id);
             Assert.Equal(city.CityName, updatedCity.CityName);
         }
 
@@ -210,7 +172,7 @@ namespace TwitterCloneClient.Tests.Controllers.Cities
         public async Task DeleteCity_WithInvalidId_ReturnsNotFound()
         {
             // Arrange
-            var controller = new CitiesController(_dataContext);
+            var controller = new CitiesController(DbContextService._dataContext);
 
             // Act
             var result = await controller.DeleteCity(Guid.NewGuid());
@@ -223,17 +185,17 @@ namespace TwitterCloneClient.Tests.Controllers.Cities
         public async Task DeleteCity_WithValidId_ReturnsNoContent()
         {
             // Arrange
-            var controller = new CitiesController(_dataContext);
+            var controller = new CitiesController(DbContextService._dataContext);
             var city = new City { Id = Guid.NewGuid(), CityName = "New York" };
-            await _dataContext.Cities.AddAsync(city);
-            await _dataContext.SaveChangesAsync();
+            await DbContextService._dataContext.Cities.AddAsync(city);
+            await DbContextService._dataContext.SaveChangesAsync();
 
             // Act
             var result = await controller.DeleteCity(city.Id);
 
             // Assert
             Assert.IsType<NoContentResult>(result);
-            var deletedCity = await _dataContext.Cities.FindAsync(city.Id);
+            var deletedCity = await DbContextService._dataContext.Cities.FindAsync(city.Id);
             Assert.Null(deletedCity);
         }
     }
