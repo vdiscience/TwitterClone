@@ -1,4 +1,4 @@
-﻿namespace TwitterCloneBackend.DDD.Models;
+﻿namespace TwitterCloneBackend.Entities.Models;
 
 public class Country : Base
 {

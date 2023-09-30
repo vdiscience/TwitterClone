@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using TwitterCloneBackend.DDD.Models;
-using static TwitterCloneBackend.DDD.DataContext;
+using TwitterCloneBackend.Entities.Models;
+using static TwitterCloneBackend.Entities.DataContext;
 
-namespace TwitterCloneBackend.DDD
+namespace TwitterCloneBackend.Entities
 {
     public sealed class DataContext : DbContext
     {

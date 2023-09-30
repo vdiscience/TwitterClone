@@ -2,8 +2,8 @@
 using Apache.NMS.Util;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json;
-using TwitterCloneBackend.DDD;
-using TwitterCloneBackend.DDD.Models;
+using TwitterCloneBackend.Entities;
+using TwitterCloneBackend.Entities.Models;
 
 namespace TwitterCloneClient.Consumer.Consumer
 {

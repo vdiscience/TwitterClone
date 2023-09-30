@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Concurrent;
-using TwitterCloneBackend.DDD.enums;
-using TwitterCloneBackend.DDD.Models;
+using TwitterCloneBackend.Entities.enums;
+using TwitterCloneBackend.Entities.Models;
 using TwitterCloneClient.Producer.Producer;
 
 namespace TwitterCloneClient.Producer;
