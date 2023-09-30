@@ -1,12 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Moq;
-using NUnit.Framework.Interfaces;
-using System.Data.Entity;
-using TwitterClone.Web.API.Controllers;
+﻿using Microsoft.EntityFrameworkCore;
 using TwitterCloneBackend.DDD;
 using TwitterCloneBackend.DDD.Models;
-using TwitterCloneBackend.Services.Contracts;
 using TwitterCloneBackend.Services.Services;
 using Xunit;
 
