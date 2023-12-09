@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using TwitterCloneBackend.Entities;
 using TwitterCloneBackend.Entities.Models;
+using TwitterCloneBackend.Services.Services;
 
 namespace TwitterClone.Web.API.Controllers
 {
@@ -9,95 +10,48 @@ namespace TwitterClone.Web.API.Controllers
     [ApiController]
     public class ProfilesController : ControllerBase
     {
-        private readonly DataContext _context;
+        private readonly ProfileService _profileService;
 
-        public ProfilesController(DataContext context)
+        public ProfilesController(ProfileService profileService)
         {
-            _context = context;
+            this._profileService = profileService;
         }
 
         // GET: api/Profiles
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Profile>>> GetProfiles()
+        public async Task<IEnumerable<Profile>> GetProfiles()
         {
-            return await _context.Profiles.ToListAsync();
+            return await _profileService.GetProfiles();
         }
 
         // GET: api/Profiles/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Profile>> GetProfile(Guid id)
+        public async Task<Profile> GetProfile(Guid id)
         {
-            var profile = await _context.Profiles.FindAsync(id);
-
-            if (profile == null)
-            {
-                return NotFound();
-            }
-
-            return profile;
+            return await _profileService.GetProfile(id);
         }
 
         // PUT: api/Profiles/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutProfile(Guid id, Profile profile)
+        public async Task PutProfile(Guid id, Profile profile)
         {
-            if (id != profile.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(profile).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ProfileExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
+            await _profileService.UpdateProfile(id, profile);
         }
 
         // POST: api/Profiles
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Profile>> PostProfile(Profile profile)
+        public async Task<Profile> PostProfile(Profile profile)
         {
-            _context.Profiles.Add(profile);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetProfile", new { id = profile.Id }, profile);
+            return await _profileService.InsertProfile(profile);
         }
 
         // DELETE: api/Profiles/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteProfile(Guid id)
+        public async Task DeleteProfile(Guid id)
         {
-            var profile = await _context.Profiles.FindAsync(id);
-            if (profile == null)
-            {
-                return NotFound();
-            }
-
-            _context.Profiles.Remove(profile);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
-        }
-
-        private bool ProfileExists(Guid id)
-        {
-            return _context.Profiles.Any(e => e.Id == id);
+            await _profileService.DeleteProfileAsync(id);
         }
     }
 }

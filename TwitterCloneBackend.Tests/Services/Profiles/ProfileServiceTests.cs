@@ -193,7 +193,7 @@ namespace TwitterCloneBackend.Tests.Services.Profiles
             var service = new ProfileService(DbContextService._dataContext);
 
             // Delete the profile
-            await service.DeleteProfile(id);
+            await service.DeleteProfileAsync(id);
 
             // Assert
             var deletedProfile = await DbContextService._dataContext.Profiles.FindAsync(id);
@@ -210,7 +210,7 @@ namespace TwitterCloneBackend.Tests.Services.Profiles
             var service = new ProfileService(DbContextService._dataContext);
 
             // Assert
-            await Assert.ThrowsAsync<ArgumentException>(async () => await service.DeleteProfile(id));
+            await Assert.ThrowsAsync<ArgumentException>(async () => await service.DeleteProfileAsync(id));
         }
     }
 }

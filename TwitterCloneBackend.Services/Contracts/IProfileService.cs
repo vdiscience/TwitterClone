@@ -4,7 +4,7 @@ namespace TwitterCloneBackend.Services.Contracts
 {
     public interface IProfileService
     {
-        Task DeleteProfile(Guid id);
+        Task DeleteProfileAsync(Guid id);
         Task<Profile> GetProfile(Guid id);
         Task<IEnumerable<Profile>> GetProfiles();
         Task<Profile> InsertProfile(Profile profile);
