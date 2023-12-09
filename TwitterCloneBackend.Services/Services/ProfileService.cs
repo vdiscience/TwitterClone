@@ -64,7 +64,7 @@ namespace TwitterCloneBackend.Services.Services
             return profile;
         }
 
-        public async Task DeleteProfile(Guid id)
+        public async Task DeleteProfileAsync(Guid id)
         {
             var profile = await _context.Profiles.FindAsync(id);
             if (profile == null)
