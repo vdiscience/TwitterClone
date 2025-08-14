@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;  //👈 new code
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TwitterCloneBackend.Entities;

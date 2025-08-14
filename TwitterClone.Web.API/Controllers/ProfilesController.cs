@@ -1,6 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using TwitterCloneBackend.Entities;
 using TwitterCloneBackend.Entities.Models;
 using TwitterCloneBackend.Services.Services;
 
