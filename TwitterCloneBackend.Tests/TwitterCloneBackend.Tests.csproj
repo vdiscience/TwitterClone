@@ -27,6 +27,12 @@
 
   <ItemGroup>
     <ProjectReference Include="..\TwitterClone.Web.API\TwitterClone.Web.API.csproj" />
+    <ProjectReference Include="..\TwitterCloneClient.Consumer\TwitterCloneClient.Consumer.csproj" />
+    <ProjectReference Include="..\TwitterCloneClient.Producer\TwitterCloneClient.Producer.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Consumer\" />
   </ItemGroup>
 
 </Project>

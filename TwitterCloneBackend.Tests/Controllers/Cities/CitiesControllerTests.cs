@@ -12,6 +12,8 @@ namespace TwitterCloneBackend.Tests.Controllers.Cities
         public async Task GetCities_ReturnsAllCities()
         {
             // Arrange
+            DbContextService._dataContext.Cities.RemoveRange(DbContextService._dataContext.Cities);
+            await DbContextService._dataContext.SaveChangesAsync();
             await DbContextService._dataContext.Cities.AddRangeAsync(CitiesRepo.Cities.AsQueryable());
             await DbContextService._dataContext.SaveChangesAsync();
 
@@ -25,7 +27,7 @@ namespace TwitterCloneBackend.Tests.Controllers.Cities
             var returnValue = Assert.IsType<List<City>>(actionResult.Value);
 
             Assert.Equal(CitiesRepo.Cities.Count, returnValue.Count);
-            Assert.Equal(3, returnValue.Count);
+            Assert.Equal(6, returnValue.Count); // Total of 6 cities in the db. 6 can change.
         }
 
         [Fact]
@@ -95,7 +97,8 @@ namespace TwitterCloneBackend.Tests.Controllers.Cities
             // Assert
             Assert.IsType<NoContentResult>(result);
             var updatedCityFromDb = await DbContextService._dataContext.Cities.FindAsync(city.Id);
-            Assert.Equal(updatedCity.CityName, updatedCityFromDb.CityName);
+            Assert.NotNull(updatedCityFromDb);
+            Assert.Equal(updatedCity.CityName, updatedCityFromDb!.CityName);
         }
 
         [Fact]
@@ -124,7 +127,7 @@ namespace TwitterCloneBackend.Tests.Controllers.Cities
             // Act & Assert
             var result = await controller.GetCities();
 
-            Assert.Equal(null, result.Result);
+            Assert.Null(result.Result);
         }
 
         [Fact]
@@ -165,7 +168,8 @@ namespace TwitterCloneBackend.Tests.Controllers.Cities
             // Assert
             Assert.IsType<NoContentResult>(result);
             var updatedCity = await DbContextService._dataContext.Cities.FindAsync(city.Id);
-            Assert.Equal(city.CityName, updatedCity.CityName);
+            Assert.NotNull(updatedCity);
+            Assert.Equal(city.CityName, updatedCity!.CityName);
         }
 
         [Fact]
