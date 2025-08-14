@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
-using TwitterCloneBackend.DDD.enums;
-using TwitterCloneBackend.DDD.Models;
+using TwitterCloneBackend.Entities.enums;
+using TwitterCloneBackend.Entities.Models;
 
 namespace TwitterCloneClient.Producer.RepoData
 {
