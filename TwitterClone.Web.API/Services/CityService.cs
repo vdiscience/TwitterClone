@@ -11,7 +11,7 @@ internal sealed class CityService : ICityService
     #region Fields
     private readonly ICityRepository _repo;
     private readonly ILogger<CityService> _logger;
-    private readonly DbContext _dbContext; // For SaveChanges exception typing (optional)
+    private readonly DbContext _dbContext;
 
     #endregion
 

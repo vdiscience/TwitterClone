@@ -18,14 +18,13 @@ internal sealed class CityRepository : ICityRepository, IAsyncDisposable, IDispo
     #endregion
 
     #region Constructors
-    // DI constructor (does NOT own the context)
+    
     public CityRepository(DataContext context)
     {
         _context = context;
         _ownsContext = false;
     }
 
-    // Optional manual usage constructor (repository OWNS the context)
     public CityRepository(DbContextOptions<DataContext> options)
     {
         _context = new DataContext(options);

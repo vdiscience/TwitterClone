@@ -63,7 +63,7 @@ public class CitiesController : ControllerBase
         {
             return NotFound();
         }
-            
+
         return Ok(city);
     }
 
@@ -71,9 +71,7 @@ public class CitiesController : ControllerBase
     [Authorize]
     [ProducesResponseType(typeof(CityResponse), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<CityResponse>> PostCity(
-        [FromBody] CityCreateRequest request,
-        CancellationToken cancellationToken = default)
+    public async Task<ActionResult<CityResponse>> PostCity([FromBody] CityCreateRequest request, CancellationToken cancellationToken = default)
     {
         var result = await _service.CreateCityAsync(request, cancellationToken);
 
@@ -106,7 +104,7 @@ public class CitiesController : ControllerBase
             {
                 return NotFound();
             }
-                
+
             return Problem(result.Error);
         }
 
@@ -127,7 +125,7 @@ public class CitiesController : ControllerBase
             {
                 return NotFound();
             }
-                
+
             return Problem(result.Error);
         }
 
